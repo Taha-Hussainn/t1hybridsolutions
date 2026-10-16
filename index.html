@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="THS - Tier-1 Hybrid Solutions | Solar PV, Battery Energy Storage Systems, EV Charging and Energy Engineering Solutions in Pakistan." />
+<link rel="icon" type="image/svg+xml" href="logo.svg" />
+<title>THS</title>
+
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  --navy: #0284c7;
+  --blue: #0ea5e9;
+  --cyan: #38bdf8;
+  --green: #84cc16;
+  --green-hover: #65a30d;
+  --ink: #0f172a; 
+  --muted: #64748b; 
+  --light: #f8fafc;
+  --white: #ffffff;
+  --line: #e2e8f0; 
+  --shadow: 0 20px 45px rgba(14, 165, 233, 0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+.container{width:min(1180px,92%);margin:auto}
+
+header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.98);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between}
+
+.brand-header{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-img{height:52px;width:auto;object-fit:contain}
+.brand-text{display:flex;flex-direction:column;justify-content:center}
+.brand-title{font-size:1.15rem;font-weight:900;line-height:1.1;letter-spacing:-0.3px;color:#0369a1}
+.brand-title .green-part{color:var(--green)}
+.brand-sub{font-size:0.68rem;font-weight:800;letter-spacing:1px;color:#64748b;margin-top:2px;text-transform:uppercase}
+
+nav.desktop-nav{display:flex;gap:24px;font-size:.95rem;font-weight:600}
+nav.desktop-nav a:hover{color:var(--blue)}
+.menu-btn{background:none;border:none;font-size:1.6rem;color:#1e293b;cursor:pointer;display:none;padding:5px}
+
+.drawer-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.6);backdrop-filter:blur(3px);z-index:9999;display:none;opacity:0;transition:opacity .3s ease}
+.drawer-overlay.active{display:block;opacity:1}
+.drawer{position:fixed;top:0;right:-320px;width:300px;height:100%;background:#fff;z-index:10000;box-shadow:-5px 0 25px rgba(0,0,0,0.15);transition:right .3s ease;display:flex;flex-direction:column;padding:24px 20px;overflow-y:auto}
+.drawer.active{right:0}
+.drawer-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:15px;border-bottom:1px solid var(--line)}
+.drawer-close{background:none;border:none;font-size:1.5rem;color:#475569;cursor:pointer}
+.drawer-links{list-style:none;margin:20px 0;display:flex;flex-direction:column;gap:16px}
+.drawer-links li a{display:flex;justify-content:space-between;align-items:center;font-size:1.05rem;font-weight:700;color:#1e293b;transition:.2s}
+.drawer-links li a:hover{color:var(--blue)}
+.drawer-phone{display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;color:#1e293b;margin:15px 0 12px;font-size:.95rem}
+.drawer-btn-outline{display:block;text-align:center;padding:12px;border:1.5px solid var(--green);border-radius:25px;color:#0f172a;font-weight:700;margin-bottom:10px}
+.drawer-btn-filled{display:block;text-align:center;padding:12px;background:var(--green);border-radius:25px;color:#fff;font-weight:700}
+
+.top-services-bar{
+  background:#f0f9ff;
+  border-bottom:1px solid #bae6fd;
+  padding:10px 0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  white-space:nowrap;
+  cursor:grab;
+  user-select:none;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  position:relative;
+}
+.top-services-bar::-webkit-scrollbar{
+  display:none;
+}
+.top-services-bar:active{
+  cursor:grabbing;
+}
+.top-services-list{
+  display:inline-flex;
+  gap:14px;
+  align-items:center;
+  padding:0 15px;
+}
+.top-service-item{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:.86rem;
+  font-weight:700;
+  color:var(--navy);
+  cursor:pointer;
+  padding:6px 16px;
+  border-radius:25px;
+  background:#fff;
+  border:1px solid #bae6fd;
+  transition:.2s;
+  flex-shrink:0;
+  box-shadow:0 2px 6px rgba(14,165,233,0.06);
+}
+.top-service-item:hover{
+  background:var(--green);
+  color:#fff;
+  border-color:var(--green);
+}
+.top-service-thumb{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  object-fit:cover;
+  pointer-events:none;
+}
+
+.hero{
+  position: relative;
+  color: #fff;
+  padding: 85px 0 65px;
+  min-height: 82vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #0b1522;
+}
+.hero-bg-img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  filter: brightness(0.65) contrast(1.1);
+}
+.hero-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(11,21,34,0.3) 0%, rgba(11,21,34,0.78) 100%);
+  z-index: 2;
+}
+.hero-content{
+  max-width: 800px;
+  position: relative;
+  z-index: 3;
+}
+.hero-title{font-size:clamp(2.3rem,5vw,3.6rem);font-weight:900;line-height:1.15;letter-spacing:-1px;margin-bottom:20px;text-shadow:0 3px 12px rgba(0,0,0,0.8)}
+.hero-title .highlight{color:#84cc16}
+.hero-desc{color:#f8fafc;font-size:1.12rem;margin-bottom:34px;line-height:1.65;text-shadow:0 2px 8px rgba(0,0,0,0.8)}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:45px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 28px;border-radius:30px;font-weight:800;font-size:1rem;transition:.25s;border:none;cursor:pointer;gap:10px}
+
+.btn-primary{
+  background: var(--green);
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(132,204,22,0.45);
+}
+.btn-primary:hover{
+  background: var(--green-hover);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+.btn-glass{
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid var(--green);
+  color: #ffffff;
+  backdrop-filter: blur(6px);
+}
+.btn-glass:hover{
+  background: rgba(132,204,22,0.2);
+  color: #ffffff;
+}
+
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;border-top:1px solid rgba(255,255,255,0.3);padding-top:30px}
+.stat-item h3{
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--green); 
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+.stat-item p{
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #38bdf8; 
+  margin-top: 6px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+}
+
+.services-main-section{padding:75px 0 50px;background:#fff;text-align:center}
+.services-main-section .section-kicker{color:var(--green);font-weight:800;font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase}
+.services-main-section h2{font-size:clamp(1.9rem,3.8vw,2.7rem);font-weight:900;margin:10px 0 14px;color:#0f172a}
+.services-main-section p.sub-lead{max-width:700px;margin:0 auto 40px;color:var(--muted);font-size:1.02rem}
+
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:left}
+.service-card-full{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.04);transition:.3s;cursor:pointer}
+.service-card-full:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#84cc16}
+.service-full-img{width:100%;height:180px;overflow:hidden;position:relative;background:#0284c7}
+.service-full-img img{width:100%;height:100%;object-fit:cover;transition:.4s transform ease}
+.service-card-full:hover .service-full-img img{transform:scale(1.08)}
+.service-full-body{padding:20px 18px}
+.service-full-body h3{font-size:1.15rem;font-weight:800;color:#0f172a;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.service-full-body h3 i{color:var(--green);font-size:1.1rem}
+.service-full-body p{font-size:.88rem;color:var(--muted);line-height:1.5}
+
+.projects-slider-section{padding:70px 0 60px;text-align:center;background:#f8fafc;overflow:hidden;border-top:1px solid var(--line)}
+.projects-slider-section .section-kicker{color:var(--green);font-weight:800;font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase}
+.projects-slider-section h2{font-size:clamp(1.9rem,3.8vw,2.7rem);font-weight:900;margin:10px 0 14px;color:#0f172a}
+.projects-slider-section p.sub-lead{max-width:700px;margin:0 auto 40px;color:var(--muted);font-size:1.02rem}
+
+.slider-container{width:100%;overflow:hidden;position:relative;padding:15px 0}
+.slider-container::before, .slider-container::after{content:'';position:absolute;top:0;width:90px;height:100%;z-index:2;pointer-events:none}
+.slider-container::before{left:0;background:linear-gradient(to right,#f8fafc,transparent)}
+.slider-container::after{right:0;background:linear-gradient(to left,#f8fafc,transparent)}
+
+.slider-track{display:flex;gap:24px;width:max-content;animation:scrollProjects 32s linear infinite}
+.slider-track:hover{animation-play-state:paused}
+
+.project-card{
+  flex:0 0 290px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(14,165,233,0.08);
+  transition:.3s;
+  text-align:left;
+  cursor:pointer;
+  position:relative;
+}
+.project-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow);
+  border-color:#84cc16;
+}
+.project-img-box{
+  width:100%;
+  height:170px;
+  overflow:hidden;
+  position:relative;
+  background:#0284c7;
+}
+.project-img-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.4s transform ease}
+.project-card:hover .project-img-box img{
+  transform:scale(1.08);
+}
+.project-badge{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:rgba(255,255,255,0.92);
+  color:#15803d;
+  font-size:0.72rem;
+  font-weight:800;
+  padding:4px 9px;
+  border-radius:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  text-transform:uppercase;
+  z-index:2;
+}
+.project-info{
+  padding:16px 16px 18px;
+}
+.project-info h4{
+  font-size:1.05rem;
+  font-weight:800;
+  color:#0f172a;
+  margin-bottom:4px;
+}
+.project-info p{
+  font-size:.84rem;
+  color:var(--muted);
+  line-height:1.45;
+}
+.project-location{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-top:8px;
+  font-size:.78rem;
+  font-weight:700;
+  color:var(--green);
+}
+
+@keyframes scrollProjects{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
+
+.why-section{background:linear-gradient(135deg, #0284c7 0%, #0369a1 100%);color:#fff;padding:80px 0;text-align:center}
+.why-kicker{color:#84cc16;font-weight:800;font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase}
+.why-section h2{font-size:clamp(2rem,4vw,2.8rem);margin:10px 0 35px}
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;text-align:left}
+.why-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:24px}
+.why-card h4{color:#fff;font-size:1.15rem;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.why-card h4 i{color:#84cc16}
+.why-card p{color:#f0f9ff;font-size:.92rem;line-height:1.5}
+
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,.8);backdrop-filter:blur(6px);z-index:99999;display:none;align-items:center;justify-content:center;padding:15px}
+.modal-overlay.active{display:flex}
+.modal-wrapper{position:relative;width:100%;max-width:420px;animation:popIn .3s cubic-bezier(0.16,1,0.3,1)}
+@keyframes popIn{
+  0%{transform:scale(0.85);opacity:0}
+  100%{transform:scale(1);opacity:1}
+}
+.modal-close-btn{position:absolute;top:-16px;right:-14px;width:38px;height:38px;background:#fff;border-radius:50%;border:none;box-shadow:0 4px 15px rgba(0,0,0,.3);cursor:pointer;display:grid;place-items:center;font-size:1.2rem;color:#334155;z-index:10}
+
+.survey-card{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.35);color:var(--ink)}
+.survey-header{
+  background:linear-gradient(135deg, #0b2038 0%, #0369a1 100%);
+  color:#fff;
+  padding:22px 20px 18px;
+  text-align:center;
+  position:relative;
+}
+.survey-logo-wrap{
+  background:#ffffff;
+  padding:6px 14px;
+  border-radius:12px;
+  display:inline-block;
+  margin-bottom:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+.survey-logo-wrap img{
+  height:40px;
+  width:auto;
+  object-fit:contain;
+  display:block;
+}
+.survey-header h3{
+  font-size:1.25rem;
+  font-weight:900;
+  letter-spacing:-0.3px;
+}
+.survey-header h3 span{
+  color:var(--green);
+}
+.survey-header p{
+  font-size:.82rem;
+  color:#e0f2fe;
+  margin-top:3px;
+}
+
+.survey-body{padding:20px 20px 18px;display:flex;flex-direction:column;gap:12px}
+.form-field{display:flex;flex-direction:column;gap:4px}
+.form-field label{font-size:.8rem;font-weight:700;color:#334155}
+.form-field label span{color:#e11d48}
+.form-field input, .form-field select{width:100%;padding:11px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:.9rem;outline:none}
+.form-field input:focus, .form-field select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(132,204,22,.2)}
+
+.btn-survey{
+  background:var(--green);
+  color:#fff;
+  font-size:1rem;
+  font-weight:800;
+  padding:14px;
+  border-radius:10px;
+  box-shadow:0 8px 20px rgba(132,204,22,.35);
+  width:100%;
+  margin-top:6px;
+  cursor:pointer;
+  border:none;
+  transition:.2s;
+}
+.btn-survey:hover{
+  background:var(--green-hover);
+  transform:translateY(-1px);
+}
+.survey-footer-text{text-align:center;font-size:.74rem;color:var(--muted);margin-top:4px}
+
+
+.survey-status{display:none;padding:10px 12px;border-radius:8px;font-size:.82rem;font-weight:600}
+.survey-status.error{display:block;background:#fff1f2;color:#be123c;border:1px solid #fecdd3}
+.btn-survey:disabled{opacity:.7;cursor:not-allowed;transform:none}
+.survey-success{display:none;padding:34px 22px 28px;text-align:center}
+.survey-success.show{display:block}
+.survey-success .tick{width:64px;height:64px;margin:0 auto 14px;border-radius:50%;background:#ecfccb;color:#65a30d;display:grid;place-items:center;font-size:1.9rem}
+.survey-success h4{font-size:1.2rem;font-weight:900;margin-bottom:6px}
+.survey-success p{font-size:.88rem;color:var(--muted);margin-bottom:16px}
+.survey-success .btn-wa{display:block;padding:12px;border-radius:10px;background:#25d366;color:#fff;font-weight:800;margin-bottom:10px}
+.survey-success .btn-close{background:none;border:none;color:var(--muted);font-weight:700;cursor:pointer;font-size:.85rem}
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+.whatsapp-float{position:fixed;bottom:24px;right:24px;background:#25d366;color:#fff;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:32px;box-shadow:0 8px 25px rgba(37,211,102,.45);z-index:999;transition:.25s}
+.whatsapp-float:hover{transform:scale(1.1)}
+
+footer{background:#082f49;color:#e0f2fe;padding:50px 0 25px}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
+footer h3{color:#fff;margin-bottom:12px}
+footer li{list-style:none;margin:7px 0}
+.footer-links a,footer p a{transition:.2s}
+.footer-links a:hover,footer p a:hover{color:#84cc16}
+.footer-links i{font-size:.75rem;margin-right:4px;color:#84cc16}
+.bottom{border-top:1px solid rgba(255,255,255,.15);margin-top:30px;padding-top:20px;font-size:.86rem;color:#bae6fd}
+
+@media(max-width:900px){
+ nav.desktop-nav{display:none}
+ .menu-btn{display:block}
+ .brand-title{font-size:1rem}
+ .brand-sub{font-size:0.62rem}
+ .stats-grid{grid-template-columns:repeat(2,1fr);gap:24px}
+ .services-grid{grid-template-columns:1fr 1fr}
+ .why-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+ .services-grid{grid-template-columns:1fr}
+ .footer-grid{grid-template-columns:1fr}
+ .hero-title{font-size:2rem}
+ .btn{width:100%}
+ .project-card{flex:0 0 250px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#home" class="brand-header">
+      <img src="logo.svg" alt="THS" class="logo-img" />
+      <div class="brand-text">
+        <div class="brand-title">TIER-1 HYBRID <span class="green-part">SOLUTIONS</span></div>
+        <div class="brand-sub">HYBRID SYSTEMS • BESS SOLUTIONS</div>
+      </div>
+    </a>
+
+    <nav class="desktop-nav">
+      <a href="#home">Home</a>
+      <a href="#services-full">Services</a>
+      <a href="#projects-slider">Solutions</a>
+      <a href="#why-ths">Why THS</a>
+      <a href="javascript:void(0)" onclick="openSurveyModal()">Free Survey</a>
+    </nav>
+    
+    <button class="menu-btn" onclick="toggleDrawer(true)">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<!-- TOP AUTO-MOVING SERVICES MINI BAR -->
+<div class="top-services-bar" id="services-bar">
+  <div class="top-services-list" id="servicesBarTrack">
+    <!-- Set 1 -->
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="PV" onerror="this.style.display='none'" />
+      Solar PV Systems
+    </div>
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="BESS" onerror="this.style.display='none'" />
+      BESS Battery Storage
+    </div>
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="Hybrid" onerror="this.style.display='none'" />
+      Hybrid Power Upgrades
+    </div>
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/110844/pexels-photo-110844.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="EV" onerror="this.style.display='none'" />
+      EV Infrastructure
+    </div>
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/3862632/pexels-photo-3862632.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="SLD" onerror="this.style.display='none'" />
+      Electrical Engineering
+    </div>
+
+    <!-- Set 2 -->
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="PV" onerror="this.style.display='none'" />
+      Solar PV Systems
+    </div>
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="BESS" onerror="this.style.display='none'" />
+      BESS Battery Storage
+    </div>
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="Hybrid" onerror="this.style.display='none'" />
+      Hybrid Power Upgrades
+    </div>
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/110844/pexels-photo-110844.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="EV" onerror="this.style.display='none'" />
+      EV Infrastructure
+    </div>
+    <div class="top-service-item" onclick="openSurveyModal()">
+      <img src="https://images.pexels.com/photos/3862632/pexels-photo-3862632.jpeg?auto=compress&cs=tinysrgb&w=150" class="top-service-thumb" alt="SLD" onerror="this.style.display='none'" />
+      Electrical Engineering
+    </div>
+  </div>
+</div>
+
+<!-- Slide-out Drawer Menu -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer(false)"></div>
+<div class="drawer" id="mobileDrawer">
+  <div class="drawer-header">
+    <strong style="font-size:1.15rem;color:var(--navy)">Menu</strong>
+    <button class="drawer-close" onclick="toggleDrawer(false)"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <ul class="drawer-links">
+    <li><a href="#home" onclick="toggleDrawer(false)">Home</a></li>
+    <li><a href="#services-full" onclick="toggleDrawer(false)">Our Services</a></li>
+    <li><a href="#projects-slider" onclick="toggleDrawer(false)">Energy Solutions</a></li>
+    <li><a href="#why-ths" onclick="toggleDrawer(false)">Why Choose Us</a></li>
+    <li><a href="javascript:void(0)" onclick="toggleDrawer(false);openSurveyModal();">Free Solar Survey</a></li>
+  </ul>
+  <div class="drawer-phone">
+    <i class="fa-solid fa-phone"></i> +92 307 3558882
+  </div>
+  <a href="javascript:void(0)" class="drawer-btn-outline" onclick="toggleDrawer(false);openSurveyModal();">Contact Us</a>
+  <a href="javascript:void(0)" class="drawer-btn-filled" onclick="toggleDrawer(false);openSurveyModal();">Cost Estimator</a>
+</div>
+
+<main>
+<section class="hero" id="home">
+  <img src="https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg?auto=compress&cs=tinysrgb&w=1600" 
+       class="hero-bg-img" 
+       alt="Solar Plant Background" 
+       onerror="this.src='hero-bg.jpg';" />
+  
+  <div class="hero-overlay"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        Powering Modern <span class="highlight">Solar & Hybrid Energy</span> for Homes and Industries
+      </h1>
+      <p class="hero-desc">
+        THS provides precision engineered energy infrastructure—from Tier-1 Solar PV and hybrid backup systems to advanced BESS lithium storage and EV charging setups across Pakistan.
+      </p>
+      <div class="hero-btns">
+        <button class="btn btn-primary" onclick="openSurveyModal()">Get a Free Consultation <i class="fa-solid fa-arrow-right"></i></button>
+        <button class="btn btn-glass" onclick="openSurveyModal()"><i class="fa-solid fa-calculator"></i> Calculate Your Savings</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <h3>Tier-1</h3>
+          <p>Certified Equipment</p>
+        </div>
+        <div class="stat-item">
+          <h3>Custom</h3>
+          <p>Engineered SLD Design</p>
+        </div>
+        <div class="stat-item">
+          <h3>100% Free</h3>
+          <p>Technical Site Survey</p>
+        </div>
+        <div class="stat-item">
+          <h3>24/7</h3>
+          <p>Dedicated Support</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="services-main-section" id="services-full">
+  <div class="container">
+    <div class="section-kicker">OUR CORE SERVICES</div>
+    <h2>Engineered Energy Technologies & Solutions</h2>
+    <p class="sub-lead">Tailored engineering services for homes, corporate offices, commercial malls, and high-load industries.</p>
+    
+    <div class="services-grid">
+      <div class="service-card-full" onclick="openSurveyModal()">
+        <div class="service-full-img">
+          <img src="https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Solar PV Design" />
+        </div>
+        <div class="service-full-body">
+          <h3><i class="fa-solid fa-solar-panel"></i> Solar PV Systems</h3>
+          <p>Complete on-grid, off-grid and hybrid turnkey installations with high efficiency Tier-1 panels.</p>
+        </div>
+      </div>
+      <div class="service-card-full" onclick="openSurveyModal()">
+        <div class="service-full-img">
+          <img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=600" alt="BESS Energy Storage" />
+        </div>
+        <div class="service-full-body">
+          <h3><i class="fa-solid fa-car-battery"></i> BESS Battery Storage</h3>
+          <p>Scalable Lithium Iron Phosphate (LiFePO4) battery systems for commercial peak shaving and power backup.</p>
+        </div>
+      </div>
+      <div class="service-card-full" onclick="openSurveyModal()">
+        <div class="service-full-img">
+          <img src="https://images.pexels.com/photos/110844/pexels-photo-110844.jpeg?auto=compress&cs=tinysrgb&w=600" alt="EV Charging Station" />
+        </div>
+        <div class="service-full-body">
+          <h3><i class="fa-solid fa-charging-station"></i> EV Infrastructure</h3>
+          <p>Integrated DC fast chargers and residential level-2 charging stations powered by smart solar setups.</p>
+        </div>
+      </div>
+      <div class="service-card-full" onclick="openSurveyModal()">
+        <div class="service-full-img">
+          <img src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hybrid Solar Inverter" />
+        </div>
+        <div class="service-full-body">
+          <h3><i class="fa-solid fa-bolt"></i> Hybrid Upgrades</h3>
+          <p>Upgrading existing on-grid plants into hybrid setups with high-capacity battery integration.</p>
+        </div>
+      </div>
+      <div class="service-card-full" onclick="openSurveyModal()">
+        <div class="service-full-img">
+          <img src="https://images.pexels.com/photos/3862632/pexels-photo-3862632.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Electrical Engineering" />
+        </div>
+        <div class="service-full-body">
+          <h3><i class="fa-solid fa-compass-drafting"></i> Electrical Engineering & SLD</h3>
+          <p>Professional Single Line Diagrams (SLDs), structural load analysis, and NEPRA net-metering approvals.</p>
+        </div>
+      </div>
+      <div class="service-card-full" onclick="openSurveyModal()">
+        <div class="service-full-img">
+          <img src="https://images.pexels.com/photos/414860/pexels-photo-414860.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Energy Monitoring" />
+        </div>
+        <div class="service-full-body">
+          <h3><i class="fa-solid fa-chart-line"></i> Energy Feasibility & Audit</h3>
+          <p>Detailed load profiling, yield simulations, ROI analysis, and remote plant health monitoring.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="projects-slider-section" id="projects-slider">
+  <div class="container">
+    <div class="section-kicker">CUSTOM SOLUTIONS</div>
+    <h2>Engineered Architecture for Every Power Need</h2>
+    <p class="sub-lead">Tailor-made solar PV, hybrid battery backup and fast EV charging blueprints.</p>
+  </div>
+  
+  <div class="slider-container">
+    <div class="slider-track">
+      <div class="project-card" onclick="openSurveyModal()">
+        <span class="project-badge">Commercial</span>
+        <div class="project-img-box">
+          <img src="https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Industrial Rooftop Solar" />
+        </div>
+        <div class="project-info">
+          <h4>Industrial Rooftop PV</h4>
+          <p>Turnkey grid-tied design for factories and warehouses.</p>
+          <span class="project-location"><i class="fa-solid fa-bolt"></i> High ROI Architecture</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openSurveyModal()">
+        <span class="project-badge">Hybrid</span>
+        <div class="project-img-box">
+          <img src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Commercial Solar Installation" />
+        </div>
+        <div class="project-info">
+          <h4>Commercial Hybrid Plants</h4>
+          <p>Intelligent power shifting with grid and battery sync.</p>
+          <span class="project-location"><i class="fa-solid fa-bolt"></i> Peak Shaving Setup</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openSurveyModal()">
+        <span class="project-badge">BESS</span>
+        <div class="project-img-box">
+          <img src="https://images.pexels.com/photos/1108101/pexels-photo-1108101.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Residential BESS Villa" />
+        </div>
+        <div class="project-info">
+          <h4>Residential Villa Storage</h4>
+          <p>Smart Lithium storage guaranteeing zero outage living.</p>
+          <span class="project-location"><i class="fa-solid fa-bolt"></i> 24/7 Uninterrupted Power</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openSurveyModal()">
+        <span class="project-badge">EV Station</span>
+        <div class="project-img-box">
+          <img src="https://images.pexels.com/photos/110844/pexels-photo-110844.jpeg?auto=compress&cs=tinysrgb&w=600" alt="EV Charging Station" />
+        </div>
+        <div class="project-info">
+          <h4>Rapid DC Charging Hubs</h4>
+          <p>Solar-assisted fast EV chargers for fleets and plazas.</p>
+          <span class="project-location"><i class="fa-solid fa-bolt"></i> High Voltage DC Setup</span>
+        </div>
+      </div>
+      <div class="project-card" onclick="openSurveyModal()">
+        <span class="project-badge">Commercial</span>
+        <div class="project-img-box">
+          <img src="https://images.pexels.com/photos/9875441/pexels-photo-9875441.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Industrial Rooftop Solar" />
+        </div>
+        <div class="project-info">
+          <h4>Industrial Rooftop PV</h4>
+          <p>Turnkey grid-tied design for factories and warehouses.</p>
+          <span class="project-location"><i class="fa-solid fa-bolt"></i> High ROI Architecture</span>
+        </div>
+      </div>
+
+      <div class="project-card" onclick="openSurveyModal()">
+        <span class="project-badge">Hybrid</span>
+        <div class="project-img-box">
+          <img src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Commercial Solar Installation" />
+        </div>
+        <div class="project-info">
+          <h4>Commercial Hybrid Plants</h4>
+          <p>Intelligent power shifting with grid and battery sync.</p>
+          <span class="project-location"><i class="fa-solid fa-bolt"></i> Peak Shaving Setup</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="why-section" id="why-ths">
+  <div class="container">
+    <div class="why-kicker">OUR COMMITMENT</div>
+    <h2>Engineered for Maximum Reliability</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <h4><i class="fa-solid fa-award"></i> Tier-1 Standards</h4>
+        <p>We only engineer systems using verified Tier-1 solar modules, certified inverters, and high-safety LiFePO4 batteries.</p>
+      </div>
+      <div class="why-card">
+        <h4><i class="fa-solid fa-drafting-compass"></i> Engineering First</h4>
+        <p>Every plant gets custom single-line diagrams, structure load analysis, and precise yield simulations before deployment.</p>
+      </div>
+      <div class="why-card">
+        <h4><i class="fa-solid fa-headset"></i> Free Site Survey</h4>
+        <p>Get a completely free on-site engineering assessment, bill analysis, and ROI forecast with zero upfront obligation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div class="modal-overlay" id="surveyModal">
+  <div class="modal-wrapper">
+    <button class="modal-close-btn" onclick="closeSurveyModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="survey-card">
+      <div class="survey-header">
+        <div class="survey-logo-wrap">
+          <img src="logo.svg" alt="THS Logo" />
+        </div>
+        <h3>Get Your <span>FREE</span> Solar Survey</h3>
+        <p>Professional site assessment — absolutely no cost.</p>
+      </div>
+
+      <form class="survey-body" id="solarSurveyForm" novalidate>
+        <!-- Honeypot: bots fill this, humans never see it -->
+        <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <div class="form-field">
+          <label for="surveyName">Full Name <span>*</span></label>
+          <input type="text" id="surveyName" name="name" placeholder="e.g. Ahmed Khan" required />
+        </div>
+        <div class="form-field">
+          <label for="surveyPhone">Phone Number <span>*</span></label>
+          <input type="tel" id="surveyPhone" name="phone" placeholder="03337566883" required />
+        </div>
+        <div class="form-field">
+          <label for="surveyCity">City <span>*</span></label>
+          <select id="surveyCity" name="city" required>
+            <option value="" disabled selected>Select your city</option>
+            <option value="Karachi">Karachi</option>
+            <option value="Lahore">Lahore</option>
+            <option value="Islamabad">Islamabad</option>
+            <option value="Rawalpindi">Rawalpindi</option>
+            <option value="Faisalabad">Faisalabad</option>
+            <option value="Multan">Multan</option>
+            <option value="Peshawar">Peshawar</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="surveyKw">Solar Capacity Required (kW) <span style="font-weight:normal;color:var(--muted)">— Optional</span></label>
+          <input type="text" id="surveyKw" name="capacity" placeholder="e.g. 5 kW, 10 kW, Not sure" />
+        </div>
+        <div class="survey-status" id="surveyStatus" role="alert"></div>
+        <button type="submit" class="btn-survey" id="surveySubmitBtn">Book My Free Survey</button>
+        <p class="survey-footer-text"><i class="fa-solid fa-shield-halved"></i> No spam. No commitments. Just a free expert visit.</p>
+      </form>
+
+      <div class="survey-success" id="surveySuccess">
+        <div class="tick"><i class="fa-solid fa-check"></i></div>
+        <h4>Request Received!</h4>
+        <p>Thank you. Our engineering team will contact you shortly to schedule your free site survey.</p>
+        <a class="btn-wa" id="waFollowUp" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Also message us on WhatsApp</a>
+        <button type="button" class="btn-close" onclick="closeSurveyModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<a href="https://wa.me/923073558882" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h3 style="color:#38bdf8">THS Hybrid Solutions</h3>
+        <p>Integrated solar, storage, EV and energy engineering solutions across Pakistan.</p>
+      </div>
+      <div>
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="#services-full"><i class="fa-solid fa-angle-right"></i> Solar PV</a></li>
+          <li><a href="#services-full"><i class="fa-solid fa-angle-right"></i> Battery Storage</a></li>
+          <li><a href="#projects-slider"><i class="fa-solid fa-angle-right"></i> Hybrid Systems</a></li>
+          <li><a href="#services-full"><i class="fa-solid fa-angle-right"></i> EV Charging</a></li>
+          <li><a href="javascript:void(0)" onclick="openSurveyModal()"><i class="fa-solid fa-angle-right"></i> Free Survey</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <p><a href="tel:+923073558882"><i class="fa-solid fa-phone"></i> +92 307 3558882</a></p>
+        <p><a href="mailto:imamsolardesign31525@gmail.com"><i class="fa-solid fa-envelope"></i> imamsolardesign31525@gmail.com</a></p>
+      </div>
+    </div>
+    <div class="bottom">© 2026 Tier-1 Hybrid Solutions. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+/* ====== SURVEY FORM -> EMAIL ====== */
+const SURVEY_EMAIL = 'imamsolardesign31525@gmail.com';
+const WHATSAPP_NUMBER = '923073558882';
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/' + SURVEY_EMAIL;
+
+const surveyForm = document.getElementById('solarSurveyForm');
+const surveyStatus = document.getElementById('surveyStatus');
+const surveyBtn = document.getElementById('surveySubmitBtn');
+const surveySuccess = document.getElementById('surveySuccess');
+
+function showSurveyError(msg){
+  surveyStatus.textContent = msg;
+  surveyStatus.className = 'survey-status error';
+}
+
+surveyForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  surveyStatus.className = 'survey-status';
+
+  const name = document.getElementById('surveyName').value.trim();
+  const phone = document.getElementById('surveyPhone').value.trim();
+  const city = document.getElementById('surveyCity').value;
+  const kw = document.getElementById('surveyKw').value.trim() || 'Not specified';
+  const honey = surveyForm.elements['_honey'].value;
+
+  if (!name || !phone || !city) { showSurveyError('Please fill in your name, phone number and city.'); return; }
+  if (!/^[+0-9()\-\s]{10,16}$/.test(phone)) { showSurveyError('Please enter a valid phone number.'); return; }
+  if (honey) return; // bot
+
+  surveyBtn.disabled = true;
+  surveyBtn.textContent = 'Sending...';
+
+  try {
+    const res = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'New Free Solar Survey Request - ' + name,
+        _template: 'table',
+        _captcha: 'false',
+        'Full Name': name,
+        'Phone Number': phone,
+        'City': city,
+        'Required Capacity': kw,
+        'Submitted At': new Date().toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })
+      })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || data.success === 'false' || data.success === false) throw new Error(data.message || 'Request failed');
+
+    const waText = 'Hello THS Team! I just booked a FREE Solar Survey on your website.\n\n*Name:* ' + name + '\n*Phone:* ' + phone + '\n*City:* ' + city + '\n*Required Capacity:* ' + kw;
+    document.getElementById('waFollowUp').href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(waText);
+
+    surveyForm.style.display = 'none';
+    surveySuccess.classList.add('show');
+    surveyForm.reset();
+  } catch (err) {
+    console.error(err);
+    showSurveyError('Could not send your request. Please check your internet and try again, or contact us on WhatsApp.');
+  } finally {
+    surveyBtn.disabled = false;
+    surveyBtn.textContent = 'Book My Free Survey';
+  }
+});
+
+const topServicesBar = document.getElementById('services-bar');
+let isUserDragging = false;
+let isMouseDown = false;
+let startPos = 0;
+let scrollStart = 0;
+let topResumeTimer;
+
+topServicesBar.addEventListener('mousedown', (e) => {
+  isMouseDown = true;
+  isUserDragging = true;
+  startPos = e.pageX - topServicesBar.offsetLeft;
+  scrollStart = topServicesBar.scrollLeft;
+});
+topServicesBar.addEventListener('mouseleave', () => {
+  isMouseDown = false;
+  resetTopScrollTimer();
+});
+topServicesBar.addEventListener('mouseup', () => {
+  isMouseDown = false;
+  resetTopScrollTimer();
+});
+topServicesBar.addEventListener('mousemove', (e) => {
+  if(!isMouseDown) return;
+  e.preventDefault();
+  const currentPos = e.pageX - topServicesBar.offsetLeft;
+  const walk = (currentPos - startPos) * 1.5;
+  topServicesBar.scrollLeft = scrollStart - walk;
+});
+
+topServicesBar.addEventListener('touchstart', () => {
+  isUserDragging = true;
+  clearTimeout(topResumeTimer);
+}, {passive: true});
+
+topServicesBar.addEventListener('touchend', () => {
+  resetTopScrollTimer();
+}, {passive: true});
+
+function resetTopScrollTimer() {
+  clearTimeout(topResumeTimer);
+  topResumeTimer = setTimeout(() => {
+    isUserDragging = false;
+  }, 2000);
+}
+
+function autoMoveTopServices() {
+  if (!isUserDragging && topServicesBar) {
+    topServicesBar.scrollLeft += 0.8;
+    if (topServicesBar.scrollLeft >= (topServicesBar.scrollWidth - topServicesBar.clientWidth - 2)) {
+      topServicesBar.scrollLeft = 0;
+    }
+  }
+  requestAnimationFrame(autoMoveTopServices);
+}
+requestAnimationFrame(autoMoveTopServices);
+
+function openSurveyModal(){
+  document.getElementById('surveyModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeSurveyModal(){
+  document.getElementById('surveyModal').classList.remove('active');
+  document.body.style.overflow = 'auto';
+  setTimeout(() => {
+    surveySuccess.classList.remove('show');
+    surveyForm.style.display = '';
+    surveyStatus.className = 'survey-status';
+  }, 300);
+}
+function toggleDrawer(open){
+  const drawer = document.getElementById('mobileDrawer');
+  const overlay = document.getElementById('drawerOverlay');
+  if(open){
+    drawer.classList.add('active');
+    overlay.classList.add('active');
+  } else {
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
+  }
+}
+/* Auto-popup: shown only once per visitor (remembered in the browser) */
+window.addEventListener('DOMContentLoaded', () => {
+  let seen = false;
+  try { seen = localStorage.getItem('thsSurveyPopupSeen') === '1'; } catch (e) {}
+  if (seen) return;
+  setTimeout(() => {
+    openSurveyModal();
+    try { localStorage.setItem('thsSurveyPopupSeen', '1'); } catch (e) {}
+  }, 2500);
+});
+window.onclick = function(e){
+  const modal = document.getElementById('surveyModal');
+  if(e.target === modal){
+    closeSurveyModal();
+  }
+}
+</script>
+
+</body>
+</html>
+ 
