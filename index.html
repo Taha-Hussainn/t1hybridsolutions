@@ -4,8 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="THS - Tier-1 Hybrid Solutions | Solar PV, Battery Energy Storage Systems, EV Charging and Energy Engineering Solutions in Pakistan." />
-<link rel="icon" type="image/svg+xml" href="logo.svg" />
-<title>THS</title>
+<link rel="icon" type="image/png" href="favicon.png" />
+<title>THS | Tier-1 Hybrid Solutions</title>
 
 <!-- Font Awesome CDN -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,7 +34,7 @@ header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.98);backd
 .nav{height:76px;display:flex;align-items:center;justify-content:space-between}
 
 .brand-header{display:flex;align-items:center;gap:12px;text-decoration:none}
-.logo-img{height:52px;width:auto;object-fit:contain}
+.logo-img{height:56px;width:auto;object-fit:contain}
 .brand-text{display:flex;flex-direction:column;justify-content:center}
 .brand-title{font-size:1.15rem;font-weight:900;line-height:1.1;letter-spacing:-0.3px;color:#0369a1}
 .brand-title .green-part{color:var(--green)}
@@ -329,7 +329,7 @@ nav.desktop-nav a:hover{color:var(--blue)}
   box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 .survey-logo-wrap img{
-  height:40px;
+  height:54px;
   width:auto;
   object-fit:contain;
   display:block;
@@ -423,7 +423,7 @@ footer li{list-style:none;margin:7px 0}
 <header>
   <div class="container nav">
     <a href="#home" class="brand-header">
-      <img src="logo.svg" alt="THS" class="logo-img" />
+      <img src="logo.jpeg" alt="THS - Tier-1 Hybrid Solutions" class="logo-img" />
       <div class="brand-text">
         <div class="brand-title">TIER-1 HYBRID <span class="green-part">SOLUTIONS</span></div>
         <div class="brand-sub">HYBRID SYSTEMS • BESS SOLUTIONS</div>
@@ -726,7 +726,7 @@ footer li{list-style:none;margin:7px 0}
     <div class="survey-card">
       <div class="survey-header">
         <div class="survey-logo-wrap">
-          <img src="logo.svg" alt="THS Logo" />
+          <img src="logo.jpeg" alt="THS Logo" />
         </div>
         <h3>Get Your <span>FREE</span> Solar Survey</h3>
         <p>Professional site assessment — absolutely no cost.</p>
@@ -801,16 +801,16 @@ footer li{list-style:none;margin:7px 0}
       <div>
         <h3>Contact</h3>
         <p><a href="tel:+923073558882"><i class="fa-solid fa-phone"></i> +92 307 3558882</a></p>
-        <p><a href="mailto:imamsolardesign31525@gmail.com"><i class="fa-solid fa-envelope"></i> imamsolardesign31525@gmail.com</a></p>
+        <p><a href="mailto:myasirbhatti2004@gmail.com"><i class="fa-solid fa-envelope"></i> myasirbhatti2004@gmail.com</a></p>
       </div>
     </div>
-    <div class="bottom">© 2026 Tier-1 Hybrid Solutions. All rights reserved.</div>
+    <div class="bottom">© 2026 THS — Tier-1 Hybrid Solutions. All rights reserved.</div>
   </div>
 </footer>
 
 <script>
 /* ====== SURVEY FORM -> EMAIL ====== */
-const SURVEY_EMAIL = 'imamsolardesign31525@gmail.com';
+const SURVEY_EMAIL = 'myasirbhatti2004@gmail.com';
 const WHATSAPP_NUMBER = '923073558882';
 const FORM_ENDPOINT = 'https://formsubmit.co/ajax/' + SURVEY_EMAIL;
 
@@ -866,8 +866,21 @@ surveyForm.addEventListener('submit', async (e) => {
     surveySuccess.classList.add('show');
     surveyForm.reset();
   } catch (err) {
-    console.error(err);
-    showSurveyError('Could not send your request. Please check your internet and try again, or contact us on WhatsApp.');
+    console.error('Survey submit failed:', err);
+    const waText = 'Hello THS Team! I want a FREE Solar Survey.\n\n*Name:* ' + name + '\n*Phone:* ' + phone + '\n*City:* ' + city + '\n*Required Capacity:* ' + kw;
+    surveyStatus.className = 'survey-status error';
+    surveyStatus.innerHTML = '';
+    const line1 = document.createElement('div');
+    line1.textContent = 'Could not send your request. Please try again, or send it on WhatsApp.';
+    const line2 = document.createElement('div');
+    line2.style.cssText = 'font-size:.72rem;font-weight:500;margin-top:4px;opacity:.8';
+    line2.textContent = 'Details: ' + (err && err.message ? err.message : 'network error');
+    const wa = document.createElement('a');
+    wa.href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(waText);
+    wa.target = '_blank'; wa.rel = 'noopener';
+    wa.style.cssText = 'display:inline-block;margin-top:8px;padding:8px 12px;border-radius:8px;background:#25d366;color:#fff;font-weight:800';
+    wa.textContent = 'Send on WhatsApp instead';
+    surveyStatus.append(line1, line2, wa);
   } finally {
     surveyBtn.disabled = false;
     surveyBtn.textContent = 'Book My Free Survey';
@@ -974,4 +987,3 @@ window.onclick = function(e){
 
 </body>
 </html>
- 
