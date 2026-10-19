@@ -1,4 +1,4 @@
-const { redis, email, clean, isAdmin } = require('../lib/util');
+const { redis, clean, isAdmin } = require('../lib/util');
 module.exports = async (req, res) => {
   if (!isAdmin(req)) return res.status(401).json({ error: 'Wrong password' });
   if (req.method === 'GET') {
@@ -13,8 +13,6 @@ module.exports = async (req, res) => {
     if (!o) return res.status(404).json({ error: 'Not found' });
     o.status = status; o.note = clean(note, 300); o.updatedAt = new Date().toISOString();
     await redis.set('order:' + o.id, o);
-    await email(o.email, `Your order ${o.id} is ${status.toUpperCase()} - THS`,
-      `Dear ${o.name},\n\nYour order ${o.id} (${o.service}) has been ${status.toUpperCase()}.\n${o.note ? 'Note: ' + o.note + '\n' : ''}\nTHS - Tier-1 Hybrid Solutions`);
     return res.status(200).json({ ok: true, order: o });
   }
   res.status(405).end();
