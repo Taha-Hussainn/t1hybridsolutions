@@ -27,15 +27,16 @@ button{width:100%;margin-top:14px;padding:13px;border:0;border-radius:10px;backg
 <label>Order ID</label><input id="tid" placeholder="THS-XXXXXX"><label>Phone used in order</label><input id="tph" type="tel">
 <button type="button" id="tb">Check Status</button><div class="msg" id="tm"></div></div></div>
 <script>
-const $=id=>document.getElementById(id),f=$('f');
+const $=id=>document.getElementById(id),f=$('f');f.date.min=new Date().toISOString().slice(0,10);try{$('tid').value=localStorage.getItem('thsOrder')||''}catch(e){}
 f.onsubmit=async e=>{e.preventDefault();const m=$('m');m.className='msg';$('b').disabled=true;
  try{const r=await fetch('/api/order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(f)))});
  const d=await r.json();if(!r.ok)throw new Error(d.error);
- m.className='msg ok';m.textContent='Order placed! Your Order ID: '+d.id+' (save it to track status).';$('tid').value=d.id;$('tph').value=f.phone.value;f.reset();
+ const t='New THS order '+d.id+'\nName: '+f.name.value+'\nPhone: '+f.phone.value+'\nCity: '+f.city.value+'\nAddress: '+f.address.value+'\nService: '+f.service.value+' '+f.capacity.value+'\nDate: '+(f.date.value||'-')+'\n'+f.details.value;try{localStorage.setItem('thsOrder',d.id)}catch(e){}
+m.className='msg ok';m.innerHTML='Order placed! Your Order ID: <b>'+d.id+'</b> (save it to track status).<br><a target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;padding:9px 14px;border-radius:8px;background:#25d366;color:#fff;text-decoration:none" href="https://wa.me/923073558882?text='+encodeURIComponent(t)+'">Also send this order on WhatsApp</a>';$('tid').value=d.id;$('tph').value=f.phone.value;f.reset();
  }catch(x){m.className='msg err';m.textContent=x.message||'Failed. Try again.'}$('b').disabled=false};
 $('tb').onclick=async()=>{const m=$('tm');m.className='msg';
  try{const r=await fetch('/api/track?id='+encodeURIComponent($('tid').value)+'&phone='+encodeURIComponent($('tph').value));const d=await r.json();if(!r.ok)throw new Error(d.error);
- const c={pending:'#f59e0b',confirmed:'#16a34a',cancelled:'#dc2626'}[d.status];
+ const c={pending:'#f59e0b',confirmed:'#16a34a',completed:'#0369a1',cancelled:'#dc2626'}[d.status];
  m.className='msg';m.style.display='block';m.style.background='#f8fafc';m.innerHTML='<span class="badge" style="background:'+c+'">'+d.status.toUpperCase()+'</span> '+d.service+(d.note?'<br>Note: '+d.note.replace(/</g,'&lt;'):'');
  }catch(x){m.removeAttribute('style');m.className='msg err';m.textContent=x.message}};
 </script></body></html>

@@ -2,24 +2,45 @@
 <meta name="robots" content="noindex"><title>THS Admin</title><link rel="icon" href="favicon.png">
 <style>
 *{box-sizing:border-box}body{font-family:system-ui,Segoe UI,Arial,sans-serif;background:#f1f5f9;margin:0}
-header{background:#0f172a;color:#fff;padding:14px 20px;display:flex;justify-content:space-between}
-.wrap{max-width:760px;margin:16px auto;padding:0 12px}.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px #0001}
-input{padding:11px;border:1px solid #cbd5e1;border-radius:9px;width:100%}button,.wa{padding:9px 14px;border:0;border-radius:8px;color:#fff;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;margin:8px 6px 0 0}
+header{background:#0f172a;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center}
+.wrap{max-width:820px;margin:16px auto;padding:0 12px}.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px #0001}
+input,select{padding:11px;border:1px solid #cbd5e1;border-radius:9px;font:inherit}button,.wa{padding:9px 14px;border:0;border-radius:8px;color:#fff;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;margin:8px 6px 0 0;font:inherit;font-weight:700}
 .badge{padding:2px 10px;border-radius:99px;color:#fff;font-weight:800;font-size:.75rem}p{margin:4px 0}
-</style></head><body><header><b>THS Admin – Orders</b><span id="cnt"></span></header>
-<div class="wrap"><div class="card" id="login"><b>Admin Password</b><br><br><input id="pw" type="password"><br><br><button style="background:#0369a1" onclick="go()">Login</button><p id="e" style="color:#be123c"></p></div><div id="list"></div></div>
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.stat{background:#fff;border-radius:10px;padding:10px;text-align:center;box-shadow:0 2px 8px #0001}.stat b{display:block;font-size:1.4rem}.stat small{color:#64748b}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.bar input{flex:1;min-width:160px}
+</style></head><body>
+<header><b>THS Admin – Orders</b><span><span id="cnt"></span><button id="lo" onclick="logout()" style="display:none;background:#dc2626;margin:0 0 0 10px">Logout</button></span></header>
+<div class="wrap">
+<div class="card" id="login"><b>Admin Password</b><br><br><input id="pw" type="password" style="width:100%" onkeydown="if(event.key==='Enter')go()"><br><br><button style="background:#0369a1" onclick="go()">Login</button><p id="e" style="color:#be123c"></p></div>
+<div id="panel" style="display:none">
+<div class="stats" id="stats"></div>
+<div class="bar"><input id="q" placeholder="Search name, phone, ID, city…" oninput="render()"><select id="f" onchange="render()"><option value="">All</option><option value="pending">Pending</option><option value="confirmed">Confirmed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select><button style="background:#0369a1;margin:0" onclick="csv()">Export Excel (CSV)</button></div>
+<div id="list"></div></div></div>
 <script>
-let K=sessionStorage.getItem('k')||'';const $=i=>document.getElementById(i),esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let K=sessionStorage.getItem('k')||'',T,orders=[],seen=null;const $=i=>document.getElementById(i),esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const C={pending:'#f59e0b',confirmed:'#16a34a',completed:'#0369a1',cancelled:'#dc2626'};
 async function api(m,b){const r=await fetch('/api/orders',{method:m,headers:{'Content-Type':'application/json','x-admin-key':K},body:b?JSON.stringify(b):undefined});const d=await r.json();if(!r.ok)throw new Error(d.error);return d}
-async function go(){K=$('pw').value||K;try{await load();sessionStorage.setItem('k',K);$('login').style.display='none';setInterval(load,20000)}catch(x){$('e').textContent=x.message}}
-async function load(){const{orders}=await api('GET');const p=orders.filter(o=>o.status==='pending').length;$('cnt').textContent=p+' pending';
-
- const c={pending:'#f59e0b',confirmed:'#16a34a',cancelled:'#dc2626'};
- $('list').innerHTML=orders.map(o=>`<div class="card"><span class="badge" style="background:${c[o.status]}">${o.status.toUpperCase()}</span> <b>${o.id}</b> <small>${new Date(o.createdAt).toLocaleString()}</small>
+async function go(){K=$('pw').value||K;try{await load();sessionStorage.setItem('k',K);$('login').style.display='none';$('panel').style.display='block';$('lo').style.display='inline-block';clearInterval(T);T=setInterval(()=>load().catch(()=>{}),15000)}catch(x){$('e').textContent=x.message}}
+function logout(){clearInterval(T);K='';sessionStorage.removeItem('k');orders=[];seen=null;$('list').innerHTML='';$('cnt').textContent='';$('pw').value='';$('e').textContent='';$('lo').style.display='none';$('panel').style.display='none';$('login').style.display='block';document.title='THS Admin'}
+function beep(){try{const a=new AudioContext(),o=a.createOscillator();o.connect(a.destination);o.frequency.value=880;o.start();o.stop(a.currentTime+.4)}catch(e){}}
+async function load(){orders=(await api('GET')).orders;const ids=new Set(orders.map(o=>o.id));
+ if(seen&&[...ids].some(i=>!seen.has(i)))beep();seen=ids;const p=orders.filter(o=>o.status==='pending').length;
+ document.title=p?'('+p+') New orders – THS Admin':'THS Admin';$('cnt').textContent=p+' pending';render()}
+function render(){const c=s=>orders.filter(o=>o.status===s).length;
+ $('stats').innerHTML=[['Total',orders.length],['Pending',c('pending')],['Confirmed',c('confirmed')],['Completed',c('completed')]].map(a=>`<div class="stat"><b>${a[1]}</b><small>${a[0]}</small></div>`).join('');
+ const q=$('q').value.toLowerCase(),f=$('f').value;
+ const L=orders.filter(o=>(!f||o.status===f)&&(!q||[o.name,o.phone,o.id,o.city,o.address].join(' ').toLowerCase().includes(q)));
+ $('list').innerHTML=L.map(o=>`<div class="card"><span class="badge" style="background:${C[o.status]}">${o.status.toUpperCase()}</span> <b>${o.id}</b> <small>${new Date(o.createdAt).toLocaleString()}</small>
  <p><b>${esc(o.name)}</b> – <a href="tel:${esc(o.phone)}">${esc(o.phone)}</a></p><p>${esc(o.city)}, ${esc(o.address)}</p>
  <p>Service: <b>${esc(o.service)}</b> ${esc(o.capacity)} | Date: ${esc(o.date)||'-'}</p><p>${esc(o.details)}</p>${o.note?'<p><i>Note: '+esc(o.note)+'</i></p>':''}
- ${o.status==='pending'?`<button style="background:#16a34a" onclick="act('${o.id}','confirmed')">Confirm</button><button style="background:#dc2626" onclick="act('${o.id}','cancelled')">Cancel</button>`:''}
- <a class="wa" style="background:#25d366" target="_blank" href="https://wa.me/92${o.phone.replace(/\D/g,'').replace(/^(92|0)/,'')}?text=${encodeURIComponent('Hello '+o.name+', your THS order '+o.id+' is '+o.status.toUpperCase()+'.')}">WhatsApp</a></div>`).join('')||'<div class="card">No orders yet.</div>'}
-async function act(id,status){const note=prompt(status==='confirmed'?'Optional note for customer (e.g. visit date):':'Reason for cancellation (optional):');if(note===null)return;await api('PATCH',{id,status,note});load()}
+ ${o.status==='pending'?`<button style="background:#16a34a" onclick="act('${o.id}','confirmed')">Confirm</button>`:''}${o.status==='confirmed'?`<button style="background:#0369a1" onclick="act('${o.id}','completed')">Mark Completed</button>`:''}${['pending','confirmed'].includes(o.status)?`<button style="background:#dc2626" onclick="act('${o.id}','cancelled')">Cancel</button>`:''}
+ <a class="wa" style="background:#25d366" target="_blank" href="https://wa.me/92${o.phone.replace(/\D/g,'').replace(/^(92|0)/,'')}?text=${encodeURIComponent('Hello '+o.name+', your THS order '+o.id+' is '+o.status.toUpperCase()+'.'+(o.note?' '+o.note:''))}">WhatsApp</a>
+ <button style="background:#64748b" onclick="del('${o.id}')">Delete</button></div>`).join('')||'<div class="card">No orders found.</div>'}
+async function act(id,status){const note=prompt('Optional note for customer (e.g. visit date / reason):');if(note===null)return;try{await api('PATCH',{id,status,note});load()}catch(x){alert(x.message)}}
+async function del(id){if(!confirm('Delete order '+id+' permanently?'))return;try{await api('DELETE',{id});load()}catch(x){alert(x.message)}}
+function csv(){const h=['ID','Date','Status','Name','Phone','City','Address','Service','Capacity','Preferred Date','Details','Note'];
+ const q=v=>'"'+String(v||'').replace(/"/g,'""')+'"';
+ const rows=orders.map(o=>[o.id,o.createdAt,o.status,o.name,o.phone,o.city,o.address,o.service,o.capacity,o.date,o.details,o.note].map(q).join(','));
+ const b=new Blob(['\ufeff'+h.join(',')+'\n'+rows.join('\n')],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='THS-orders.csv';a.click()}
 if(K)go();
 </script></body></html>

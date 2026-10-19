@@ -1,6 +1,7 @@
-const { redis, clean, digits } = require('../lib/util');
+const { redis, ip, rateLimit, clean, digits } = require('../lib/util');
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+  if (!(await rateLimit('rl:order:' + ip(req), 5, 3600))) return res.status(429).json({ error: 'Too many orders from this device. Please try later or call us.' });
   const b = req.body || {};
   if (b._honey) return res.status(200).json({ ok: true });
   const o = { name: clean(b.name, 80), phone: clean(b.phone, 20), city: clean(b.city, 50),
